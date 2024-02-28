@@ -68,7 +68,7 @@ exports.SignUpPage = class SignUpPage {
 
     }
 
-    async sofipyAccountVerification(){
+    async shofipyAccountVerification(){
         await this.userEmailInputField.fill(this.userId);
         await this.userFirstNameInputField.fill(this.firstName);
         await this.userLastNameInputField.fill(this.lastName);
