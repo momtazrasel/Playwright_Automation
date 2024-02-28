@@ -4,7 +4,9 @@ const locators = require('../utils/locators');
 const testUserconfig = require('../utils/testuserConfig');
 const reusableMethod = require('../pages/ReusableFunctions');
 
+
 exports.SignUpPage = class SignUpPage {
+  
 
     /**
      * @param {import('@playwright/test').Page} page
@@ -24,8 +26,12 @@ exports.SignUpPage = class SignUpPage {
         this.skipButton = page.locator(locators.SignUpLocators.skipButton);
         this.alertText = page.locator(locators.SignUpLocators.accountAtertText);
         this.forbiddenText = page.locator(locators.SignUpLocators.forbidden);
-
         this.duplicateAccoutn = page.locator(locators.SignUpLocators.textAssertion)
+        //Login In
+        this.signInLink = page.locator(locators.SignUpLocators.signInLink)
+        this.email = page.locator(locators.SignUpLocators.email)
+        this.signInPassword = page.locator(locators.SignUpLocators.password)
+        this.signInBtn = page.locator(locators.SignUpLocators.signInBtn)
 
         this.userId = testUserconfig.userId;
         this.firstName = testUserconfig.firstName;
@@ -69,33 +75,42 @@ exports.SignUpPage = class SignUpPage {
     }
 
     async shofipyAccountVerification(){
-        await this.userEmailInputField.fill(this.userId);
-        await this.userFirstNameInputField.fill(this.firstName);
-        await this.userLastNameInputField.fill(this.lastName);
-        await this.userCompanyNameInputField.fill(this.companyName);
-        await this.userStoreURLInputField.fill(this.storeUrl);
-        await this.signUpButton.click();
-        const errorMessageElement = await this.page.$("//p[normalize-space()='An account with this email already exists']");
-        if (errorMessageElement) {
-            
-            const errorMessage = await errorMessageElement.textContent();
-            if (errorMessage.includes('already exists')) {
-              console.log('An account with this email already exists. Taking alternative steps...');
-              
-            } else {
-              
-              console.log('Error:', errorMessage);
-            }
-          } else {
-            // No error message, continue with the next steps
-            await this.passwordInputField.fill(this.password);
-            await this.nextButton.click();
-            await this.storeSopifyField.fill(this.storeUrl);
-            await this.connectBtn.click();
-            await this.forbiddenText.click();
-            await expect(this.forbiddenText).toHaveText('403 Forbidden')
-            
-          }
+      await this.userEmailInputField.fill(this.userId);
+      await this.userFirstNameInputField.fill(this.firstName);
+      await this.userLastNameInputField.fill(this.lastName);
+      await this.userCompanyNameInputField.fill(this.companyName);
+      await this.userStoreURLInputField.fill(this.storeUrl);
+      await this.signUpButton.click();
+    
+      const errorMessageElement = await this.page.$("//p[normalize-space()='An account with this email already exists']");
+    
+      if (errorMessageElement) {
+        const errorMessage = await errorMessageElement.textContent();
+        if (errorMessage.includes('already exists')) {
+          console.log('An account with this email already exists. Terminating the test...');
+          throw new Error('Account with this email already exists');
+        } else {
+          console.log('Error:', errorMessage);
+        }
+      } else {
+        // No error message, continue with the next steps
+        await this.passwordInputField.fill(this.password);
+        await this.nextButton.click();
+        await this.storeSopifyField.fill(this.storeUrl);
+        await this.connectBtn.click();
+        await this.forbiddenText.click();
+        await expect(this.forbiddenText).toHaveText('403 Forbidden');
+      }
     }
+
+    async login(){
+      await this.signInLink.click();
+      await this.email.fill(this.userId);
+      await this.signInPassword.fill(this.password);
+      await expect(this.signInBtn).toHaveText('Sign In');
+      await this.signInBtn.click();
+
+    }
+    
 
 };

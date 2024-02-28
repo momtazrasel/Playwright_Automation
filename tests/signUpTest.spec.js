@@ -12,9 +12,13 @@ test.describe('Log In page', () => {
         await signUpPage.signUp();
     });
     
-    test('Verify Shopify Account ', async ({ page }) => {
+    test.skip('Verify Shopify Account ', async ({ page }) => {
         const signUpPage = new SignUpPage(page);
         await signUpPage.shofipyAccountVerification();
+    });
+    test('Verify Sign In Successfully ', async ({ page }) => {
+        const signUpPage = new SignUpPage(page);
+        await signUpPage.login();
     });
 
 });

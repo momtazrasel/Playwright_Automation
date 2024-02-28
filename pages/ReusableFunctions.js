@@ -9,9 +9,8 @@ class ReusableFunctions {
     }
   
     async assertText(page, selector, expectedText) {
-    //   const actualText = await page.$eval(selector, (element) => element.textContent);
-    //   expect(actualText).toBe(expectedText); // Use your preferred assertion library and assertion method
-   const texts = await (page.locator(selector)).toHaveText(expectedText)
+      const actualText = await page.$eval(selector, (element) => element.textContent);
+      expect(actualText).toBe(expectedText); // Use your preferred assertion library and assertion method
     }
   }
   

@@ -10,7 +10,11 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@faker-js/faker": "^8.4.1",
     "@playwright/test": "^1.42.0",
     "@types/node": "^20.11.5"
+  },
+  "dependencies": {
+    "faker": "^6.6.6"
   }
 }

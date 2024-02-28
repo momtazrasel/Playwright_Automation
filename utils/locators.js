@@ -21,7 +21,13 @@ module.exports = {
 
 
       textAssertion: "//p[normalize-space()='An account with this email already exists']",
-      forbidden: "(//h1[normalize-space()='403 Forbidden'])[1]"
+      forbidden: "(//h1[normalize-space()='403 Forbidden'])[1]",
+
+      //Sign In 
+      signInLink: "(//div[normalize-space()='Sign in'])[1]",
+      email: "(//input[@placeholder='Email or Phone'])[1]",
+      password: "(//input[@placeholder='Password'])[1]",
+      signInBtn: "(//button[@class='sc-bYMpWt bNQzOD'])[1]",
 
     
 
