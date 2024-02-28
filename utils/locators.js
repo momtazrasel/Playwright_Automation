@@ -20,7 +20,8 @@ module.exports = {
 
 
 
-      textAssertion: "//p[normalize-space()='An account with this email already exists']"
+      textAssertion: "//p[normalize-space()='An account with this email already exists']",
+      forbidden: "(//h1[normalize-space()='403 Forbidden'])[1]"
 
     
 

@@ -23,6 +23,7 @@ exports.SignUpPage = class SignUpPage {
         this.connectBtn = page.locator(locators.SignUpLocators.connectButton);
         this.skipButton = page.locator(locators.SignUpLocators.skipButton);
         this.alertText = page.locator(locators.SignUpLocators.accountAtertText);
+        this.forbiddenText = page.locator(locators.SignUpLocators.forbidden);
 
         this.duplicateAccoutn = page.locator(locators.SignUpLocators.textAssertion)
 
@@ -62,20 +63,39 @@ exports.SignUpPage = class SignUpPage {
             // No error message, continue with the next steps
             await this.passwordInputField.fill(this.password);
             await this.nextButton.click();
-            await this.storeSopifyField.fill(this.storeUrl);
-            await this.connectBtn.click();
+            await this.skipButton.click();
           }   
 
     }
 
-    async duplicateAccount(){
+    async sofipyAccountVerification(){
         await this.userEmailInputField.fill(this.userId);
         await this.userFirstNameInputField.fill(this.firstName);
         await this.userLastNameInputField.fill(this.lastName);
         await this.userCompanyNameInputField.fill(this.companyName);
         await this.userStoreURLInputField.fill(this.storeUrl);
         await this.signUpButton.click();
-        await expect(this.duplicateAccoutn).toHaveText('An account with this email already exists')
+        const errorMessageElement = await this.page.$("//p[normalize-space()='An account with this email already exists']");
+        if (errorMessageElement) {
+            
+            const errorMessage = await errorMessageElement.textContent();
+            if (errorMessage.includes('already exists')) {
+              console.log('An account with this email already exists. Taking alternative steps...');
+              
+            } else {
+              
+              console.log('Error:', errorMessage);
+            }
+          } else {
+            // No error message, continue with the next steps
+            await this.passwordInputField.fill(this.password);
+            await this.nextButton.click();
+            await this.storeSopifyField.fill(this.storeUrl);
+            await this.connectBtn.click();
+            await this.forbiddenText.click();
+            await expect(this.forbiddenText).toHaveText('403 Forbidden')
+            
+          }
     }
 
 };

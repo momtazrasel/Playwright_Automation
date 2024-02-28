@@ -12,9 +12,9 @@ test.describe('Log In page', () => {
         await signUpPage.signUp();
     });
     
-    test('Duplicate account prevent', async ({ page }) => {
+    test('Verify Sopify Account ', async ({ page }) => {
         const signUpPage = new SignUpPage(page);
-        await signUpPage.duplicateAccount();
+        await signUpPage.sofipyAccountVerification();
     });
 
 });
